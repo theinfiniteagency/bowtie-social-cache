@@ -19,7 +19,7 @@ class Social {
 
     public function __construct($source, $args = array()) {
         $this->source = $source;
-        $this->user_id = $args['user_id'] ? $args['user_id'] : false;
+        $this->user_id = isset($args['user_id']) ? $args['user_id'] : false;
         $this->key = $this->source.'_'.$this->user_id.'_feed';
     }
 
@@ -147,9 +147,9 @@ function bowtie_social_authenticate_instagram( WP_REST_Request $request ) {
 
 function bowtie_social_feed( WP_REST_Request $request ) {  
     $source = 'instagram';
-    if($_GET['source']) $source = $_GET['source'];
+    if(isset($_GET['source'])) $source = $_GET['source'];
 
-    $feed = new Social($source);
+    $feed = new Social($source, array());
     $output = $feed->get();
 
     return $output;
